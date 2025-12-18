@@ -31,6 +31,7 @@ See <https://docs.rs/n0-tracing-test/>.
 ## License
 
 Copyright © 2020-2023 Threema GmbH, Danilo Bargen and Contributors.
+
 Copyright © 2025 N0, INC.
 
 
