@@ -1,8 +1,14 @@
-# tracing-test
+# n0-tracing-test
 
 [![Build status][workflow-badge]][workflow]
 [![Crates.io Version][crates-io-badge]][crates-io]
 [![Crates.io Downloads][crates-io-download-badge]][crates-io-download]
+
+**A fork of [tracing-test](https://github.com/dbrgn/tracing-test/)**
+
+We forked because we want [colored output on the terminal]. See the [list of PRs] for other changes from upstream.
+
+---
 
 This crate provides an easy way to enable logging in tests that use
 [tracing](https://tracing.rs/), even if they're async. Additionally, it adds a
@@ -20,11 +26,13 @@ Similar crates:
 
 ## Docs / Usage / Example
 
-See <https://docs.rs/tracing-test/>.
+See <https://docs.rs/n0-tracing-test/>.
 
 ## License
 
 Copyright © 2020-2023 Threema GmbH, Danilo Bargen and Contributors.
+Copyright © 2025 N0, INC.
+
 
 Licensed under either of
 
@@ -41,9 +49,11 @@ be dual licensed as above, without any additional terms or conditions.
 
 
 <!-- Badges -->
-[workflow]: https://github.com/dbrgn/tracing-test/actions?query=workflow%3ACI
-[workflow-badge]: https://img.shields.io/github/actions/workflow/status/dbrgn/tracing-test/ci.yml?branch=main
-[crates-io]: https://crates.io/crates/tracing-test
-[crates-io-badge]: https://img.shields.io/crates/v/tracing-test.svg?maxAge=3600
-[crates-io-download]: https://crates.io/crates/tracing-test
-[crates-io-download-badge]: https://img.shields.io/crates/d/tracing-test.svg?maxAge=3600
+[workflow]: https://github.com/n0-computer/n0-tracing-test/actions?query=workflow%3ACI
+[workflow-badge]: https://img.shields.io/github/actions/workflow/status/n0-computer/n0-tracing-test/ci.yml?branch=main
+[crates-io]: https://crates.io/crates/n0-tracing-test
+[crates-io-badge]: https://img.shields.io/crates/v/n0-tracing-test.svg?maxAge=3600
+[crates-io-download]: https://crates.io/crates/n0-tracing-test
+[crates-io-download-badge]: https://img.shields.io/crates/d/n0-tracing-test.svg?maxAge=3600
+[list of PRs]: https://github.com/n0-computer/n0-tracing-test/pulls?q=is%3Apr+is%3Aclosed
+[colored output on the terminal]: https://github.com/dbrgn/tracing-test/pull/51

@@ -1,10 +1,10 @@
 [package]
-name = "tracing-test"
-version = "0.2.5"
-authors = ["Danilo Bargen <mail@dbrgn.ch>"]
+name = "n0-tracing-test"
+version = "0.3.0"
+authors = ["n0 team <hello@n0.computer>", "Danilo Bargen <mail@dbrgn.ch>"]
 license = "MIT"
 edition = "2018"
-repository = "https://github.com/dbrgn/tracing-test"
+repository = "https://github.com/n0-computer/n0-tracing-test"
 description = """
 Helper functions and macros that allow for easier testing of crates that use `tracing`.
 """
@@ -14,7 +14,7 @@ categories = ["development-tools::testing"]
 [dependencies]
 tracing-core = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter", "registry"] }
-tracing-test-macro = { path = "../tracing-test-macro", version = "0.2.5" }
+n0-tracing-test-macro = { path = "../tracing-test-macro", version = "0.3" }
 
 [dev-dependencies]
 tokio = { version = "1", features = ["rt-multi-thread", "macros"] } # Used for doctests
@@ -26,6 +26,6 @@ maintenance = { status = "experimental" }
 [features]
 default = ["pretty-log-printing"]
 # Disable hardcoded env filter
-no-env-filter = ["tracing-test-macro/no-env-filter"]
+no-env-filter = ["n0-tracing-test-macro/no-env-filter"]
 # Enables pretty log printing with support for RUST_LOG filtering and ansi colors
 pretty-log-printing = []

@@ -16,19 +16,12 @@
 //! This crate should mainly be used through the
 //! [`#[traced_test]`](attr.traced_test.html) macro.
 //!
-//! First, add a dependency on `tracing-test` in `Cargo.toml`:
-//!
-//! ```toml
-//! tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
-//! tracing = "0.1"
-//! tracing-test = "0.1"
-//! ```
-//!
+//! First, add a dependency on `n0-tracing-test` in `Cargo.toml`.
 //! Then, annotate your test function with the `#[traced_test]` macro.
 //!
 //! ```rust
 //! use tracing::{info, warn};
-//! use tracing_test::traced_test;
+//! use n0_tracing_test::traced_test;
 //!
 //! #[tokio::test]
 //! #[traced_test]
@@ -73,7 +66,7 @@
 //!
 //! ```rust
 //! use tracing::info;
-//! use tracing_test::traced_test;
+//! use n0_tracing_test::traced_test;
 //!
 //! #[traced_test]
 //! #[test]
@@ -146,4 +139,4 @@
 pub mod internal;
 mod subscriber;
 
-pub use tracing_test_macro::traced_test;
+pub use n0_tracing_test_macro::traced_test;
