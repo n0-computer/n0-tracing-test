@@ -8,9 +8,8 @@ This crate provides an easy way to enable logging in tests that use
 [tracing](https://tracing.rs/), even if they're async. Additionally, it adds a
 way to assert that certain things were logged.
 
-The focus is on testing the logging, not on debugging the tests. That's why the
-library ensures that the logs do not depend on external state. For example, the
-`RUST_LOG` env variable is not used for log filtering.
+To enable ANSI colors and support for filtering with `RUST_LOG` in the terminal
+output, enable the `pretty-log-printing` feature (enabled by default).
 
 Similar crates:
 
