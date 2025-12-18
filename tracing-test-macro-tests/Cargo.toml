@@ -1,5 +1,5 @@
 [package]
-name = "tracing-test-macro-tests"
+name = "n0-tracing-test-macro-tests"
 version = "0.1.0"
 authors = ["Danilo Bargen <mail@dbrgn.ch>"]
 license = "MIT"
@@ -13,4 +13,4 @@ publish = false
 [dev-dependencies]
 tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
 tracing = { version = "0.1", default-features = false }
-tracing-test = { path = "../tracing-test" }
+n0-tracing-test = { path = "../tracing-test" }

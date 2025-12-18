@@ -1,10 +1,10 @@
 [package]
-name = "tracing-test-macro"
-version = "0.2.5"
-authors = ["Danilo Bargen <mail@dbrgn.ch>"]
+name = "n0-tracing-test-macro"
+version = "0.3.0"
+authors = ["n0 team <hello@n0.computer>", "Danilo Bargen <mail@dbrgn.ch>"]
 license = "MIT"
 edition = "2018"
-repository = "https://github.com/dbrgn/tracing-test"
+repository = "https://github.com/n0-computer/tracing-test"
 description = """
 A procedural macro that allow for easier testing of crates that use `tracing`.
 

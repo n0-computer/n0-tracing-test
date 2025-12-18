@@ -66,7 +66,7 @@ pub fn traced_test(_attr: TokenStream, item: TokenStream) -> TokenStream {
     // Prepare code that should be injected at the start of the function
     let init = parse::<Stmt>(
         quote! {
-            tracing_test::internal::INITIALIZED.call_once(|| {
+            ::n0_tracing_test::internal::INITIALIZED.call_once(|| {
                 let env_filter = if #no_env_filter {
                     "trace".to_string()
                 } else {
@@ -77,9 +77,9 @@ pub fn traced_test(_attr: TokenStream, item: TokenStream) -> TokenStream {
                         .to_string();
                     format!("{}=trace", crate_name)
                 };
-                let mock_writer = tracing_test::internal::MockWriter::new(&tracing_test::internal::global_buf());
-                let subscriber = tracing_test::internal::get_subscriber(mock_writer, &env_filter);
-                tracing::dispatcher::set_global_default(subscriber)
+                let mock_writer = ::n0_tracing_test::internal::MockWriter::new(&::n0_tracing_test::internal::global_buf());
+                let subscriber = ::n0_tracing_test::internal::get_subscriber(mock_writer, &env_filter);
+                ::tracing::dispatcher::set_global_default(subscriber)
                     .expect("Could not set global tracing subscriber");
             });
         }
@@ -103,7 +103,7 @@ pub fn traced_test(_attr: TokenStream, item: TokenStream) -> TokenStream {
     let logs_contain_fn = parse::<Stmt>(
         quote! {
             fn logs_contain(val: &str) -> bool {
-                tracing_test::internal::logs_with_scope_contain(#scope, val)
+                ::n0_tracing_test::internal::logs_with_scope_contain(#scope, val)
             }
 
         }
@@ -116,7 +116,7 @@ pub fn traced_test(_attr: TokenStream, item: TokenStream) -> TokenStream {
             /// an `Err`, panic. This can be used to run arbitrary assertion
             /// logic against the logs.
             fn logs_assert(f: impl Fn(&[&str]) -> std::result::Result<(), String>) {
-                match tracing_test::internal::logs_assert(#scope, f) {
+                match ::n0_tracing_test::internal::logs_assert(#scope, f) {
                     Ok(()) => {},
                     Err(msg) => panic!("The logs_assert function returned an error: {}", msg),
                 };

@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 
 This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] - 2025-12-18
+
+Initial release as **n0-tracing-test** (forked from **tracing-test**).
+
+### Features
+
+- Output colored logs on terminal (#1)
+
+### Miscellaneous Tasks
+
+- Prepare fork
 
 ## 0.2.5 - 2024-06-02
 
