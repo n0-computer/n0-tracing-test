@@ -75,7 +75,14 @@ pub fn traced_test(_attr: TokenStream, item: TokenStream) -> TokenStream {
                         .next()
                         .expect("Could not find crate name in module path")
                         .to_string();
-                    format!("{}=trace", crate_name)
+                    // An integration test is its own crate, so also capture the
+                    // library crate of the package that it tests.
+                    let package_crate = env!("CARGO_PKG_NAME").replace('-', "_");
+                    if crate_name == package_crate {
+                        format!("{}=trace", crate_name)
+                    } else {
+                        format!("{}=trace,{}=trace", crate_name, package_crate)
+                    }
                 };
                 let mock_writer = ::n0_tracing_test::internal::MockWriter::new(&::n0_tracing_test::internal::global_buf());
                 let subscriber = ::n0_tracing_test::internal::get_subscriber(mock_writer, &env_filter);
