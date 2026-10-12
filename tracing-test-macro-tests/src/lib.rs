@@ -3,7 +3,7 @@
 
 #[cfg(test)]
 mod tests {
-    use n0_tracing_test::traced_test;
+    use n0_tracing_test::{assert_logs, traced_test};
     use tracing::{info, warn};
 
     #[tokio::test]
@@ -83,5 +83,22 @@ mod tests {
                 n => Err(format!("Count should be 1, but was {}", n)),
             }
         });
+    }
+
+    #[traced_test]
+    #[test]
+    fn assert_logs_contain() {
+        info!(id = 1, "request sent");
+        info!("response received");
+        let id = 1;
+        assert_logs!("response received", format!("request sent id={}", id),);
+    }
+
+    #[traced_test]
+    #[test]
+    #[should_panic(expected = "logs do not contain: never logged")]
+    fn assert_logs_names_the_missing_value() {
+        info!("logged");
+        assert_logs!("logged", "never logged");
     }
 }
