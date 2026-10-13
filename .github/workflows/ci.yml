@@ -20,11 +20,11 @@ jobs:
         with:
           toolchain: ${{ matrix.rust }}
       - name: Build with default features
-        run: cargo build
+        run: cargo build --locked
       - name: Build with all features
-        run: cargo build --all-features
+        run: cargo build --locked --all-features
       - name: Run tests
-        run: cargo test --all-features
+        run: cargo test --locked --all-features
 
   clippy:
     name: run clippy lints
@@ -34,7 +34,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@1.71.1
         with:
           components: clippy
-      - run: cargo clippy --all-features
+      - run: cargo clippy --locked --all-features
 
   fmt:
     name: run rustfmt
