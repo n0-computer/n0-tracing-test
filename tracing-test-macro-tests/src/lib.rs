@@ -8,7 +8,7 @@ pub fn log_from_library() {
 
 #[cfg(test)]
 mod tests {
-    use n0_tracing_test::traced_test;
+    use n0_tracing_test::{assert_logs, assert_logs_ordered, assert_no_logs, traced_test};
     use tracing::{info, warn};
 
     #[tokio::test]
@@ -88,5 +88,55 @@ mod tests {
                 n => Err(format!("Count should be 1, but was {}", n)),
             }
         });
+    }
+
+    #[traced_test]
+    #[test]
+    fn assert_logs_contain() {
+        info!(id = 1, "request sent");
+        info!("response received");
+        let id = 1;
+        assert_logs!("response received", format!("request sent id={}", id),);
+    }
+
+    #[traced_test]
+    #[test]
+    #[should_panic(expected = "logs do not contain: never logged")]
+    fn assert_logs_names_the_missing_value() {
+        info!("logged");
+        assert_logs!("logged", "never logged");
+    }
+
+    #[traced_test]
+    #[test]
+    fn assert_logs_ordered_in_order() {
+        info!("first");
+        info!("second");
+        info!("first");
+        assert_logs_ordered!("first", "second", String::from("first"));
+    }
+
+    #[traced_test]
+    #[test]
+    #[should_panic(expected = "logs do not contain in order: first")]
+    fn assert_logs_ordered_names_the_value_out_of_order() {
+        info!("second");
+        info!("first");
+        assert_logs_ordered!("second", "first", "first");
+    }
+
+    #[traced_test]
+    #[test]
+    fn assert_no_logs_not_logged() {
+        info!("logged");
+        assert_no_logs!("never logged", String::from("also never logged"));
+    }
+
+    #[traced_test]
+    #[test]
+    #[should_panic(expected = "logs contain: logged")]
+    fn assert_no_logs_names_the_logged_value() {
+        info!("logged");
+        assert_no_logs!("never logged", "logged");
     }
 }

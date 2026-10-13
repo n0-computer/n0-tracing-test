@@ -59,6 +59,9 @@
 //!   against the log lines. If the function returns an `Err`, panic. This can
 //!   be used to run arbitrary assertion logic against the logs.
 //!
+//! The [`assert_logs!`], [`assert_logs_ordered!`] and [`assert_no_logs!`] macros
+//! assert several values at once, and name the value that fails the assertion.
+//!
 //! Logs are written to stdout, so they are captured by the cargo test runner
 //! by default, but printed if the test fails.
 //!
@@ -145,3 +148,93 @@ pub mod internal;
 mod subscriber;
 
 pub use n0_tracing_test_macro::traced_test;
+
+/// Asserts that the logs of a test contain each of the given values.
+///
+/// Use this in a test with [`#[traced_test]`](traced_test). Each value can be
+/// anything that dereferences to `str`, such as `&str` or `String`. If a value
+/// is missing from the logs, the macro panics with that value.
+///
+/// ```rust
+/// use n0_tracing_test::{assert_logs, traced_test};
+/// use tracing::info;
+///
+/// #[traced_test]
+/// fn logs_requests() {
+///     for id in 0..2 {
+///         info!(id, "request sent");
+///     }
+///     assert_logs!("request sent id=0", format!("request sent id={}", 1));
+/// }
+/// # logs_requests();
+/// ```
+#[macro_export]
+macro_rules! assert_logs {
+    ($($value:expr),* $(,)?) => {{
+        $(
+            let value = $value;
+            assert!(logs_contain(&value), "logs do not contain: {}", &*value);
+        )*
+    }};
+}
+
+/// Asserts that the logs of a test contain the given values in this order.
+///
+/// Each value must be on a later line than the value before it. Use this in a
+/// test with [`#[traced_test]`](traced_test). If a value is missing after the
+/// value before it, the macro panics with that value.
+///
+/// ```rust
+/// use n0_tracing_test::{assert_logs_ordered, traced_test};
+/// use tracing::info;
+///
+/// #[traced_test]
+/// fn logs_in_order() {
+///     info!("request sent");
+///     info!("response received");
+///     assert_logs_ordered!("request sent", "response received");
+/// }
+/// # logs_in_order();
+/// ```
+#[macro_export]
+macro_rules! assert_logs_ordered {
+    ($($value:expr),* $(,)?) => {{
+        let values = [$(::std::string::ToString::to_string(&$value)),*];
+        logs_assert(|lines: &[&str]| {
+            let mut rest = lines;
+            for value in &values {
+                match rest.iter().position(|line| line.contains(value.as_str())) {
+                    Some(i) => rest = &rest[i + 1..],
+                    None => return Err(format!("logs do not contain in order: {}", value)),
+                }
+            }
+            Ok(())
+        });
+    }};
+}
+
+/// Asserts that the logs of a test contain none of the given values.
+///
+/// Use this in a test with [`#[traced_test]`](traced_test). If the logs
+/// contain a value, the macro panics with that value.
+///
+/// ```rust
+/// use n0_tracing_test::{assert_no_logs, traced_test};
+/// use tracing::info;
+///
+/// #[traced_test]
+/// fn logs_no_errors() {
+///     info!("request sent");
+///     assert_no_logs!("ERROR", "request failed");
+/// }
+/// # logs_no_errors();
+/// ```
+#[macro_export]
+macro_rules! assert_no_logs {
+    ($($value:expr),* $(,)?) => {{
+        $(
+            let value = $value;
+            assert!(!logs_contain(&value), "logs contain: {}", &*value);
+        )*
+    }};
+}
