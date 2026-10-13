@@ -1,0 +1,16 @@
+[advisories]
+yanked = "deny"
+
+[bans]
+multiple-versions = "allow"
+deny = ["native-tls", "openssl"]
+
+[licenses]
+allow = [
+    "Apache-2.0",
+    "MIT",
+    "Unicode-3.0",
+]
+
+[sources]
+allow-git = []
