@@ -9,6 +9,7 @@ description = "Only used for internal testing, don't publish."
 publish = false
 
 [dependencies]
+tracing = { version = "0.1", default-features = false }
 
 [dev-dependencies]
 tokio = { version = "1", features = ["rt-multi-thread", "macros"] }

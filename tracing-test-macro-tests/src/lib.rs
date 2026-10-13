@@ -1,6 +1,11 @@
 //! This crate is only here to test the `tracing-test-macro` crate (because proc macros cannot be
 //! tested from within the crate itself).
 
+/// Logs from the library crate, for the integration tests.
+pub fn log_from_library() {
+    tracing::info!("logged from the library");
+}
+
 #[cfg(test)]
 mod tests {
     use n0_tracing_test::traced_test;

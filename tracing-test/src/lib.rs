@@ -111,7 +111,16 @@
 //!
 //! By default, `tracing-test` sets an env filter that filters out all logs
 //! except the ones from your crate (equivalent to
-//! `RUST_LOG=<your_crate>=trace`). If you need to capture logs from other crates
+//! `RUST_LOG=<your_crate>=trace`).
+//!
+//! Rust "integration tests" (in the `tests/` directory) are each built into a
+//! separate crate from the crate they test. In an integration test, the filter
+//! also lets through the library crate of the package, which is named after
+//! the package with `-` replaced by `_` (equivalent to
+//! `RUST_LOG=<test_crate>=trace,<your_crate>=trace`). If the library has a
+//! different name, use `no-env-filter`.
+//!
+//! If you need to capture logs from other crates
 //! as well, you can turn off this log filtering globally by enabling the
 //! `no-env-filter` Cargo feature:
 //!
@@ -123,10 +132,6 @@
 //! captured! This means that the `logs_contain` function may become less
 //! useful, and you might need to use `logs_assert` instead, with your own
 //! custom filtering logic.
-//!
-//! **Note:** Rust "integration tests" (in the `tests/` directory) are each
-//! built into a separate crate from the crate they test. As a result,
-//! integration tests must use `no-env-filter` to capture and observe logs.
 //!
 //! ## Controlling log printing
 //!
